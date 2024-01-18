@@ -1,0 +1,23 @@
+.services-section .sicon {
+    font-size: 3.5rem;
+    text-shadow: 5px 5px 0 #c1c1c1;
+}
+
+.btn-contact {
+    color: #000000;
+    background-color: transparent;
+    background-image: none;
+    border-color: #000000;
+}
+
+.btn-contact:hover {
+    color: #000000;
+    background-color: #f1f1f1;
+    background-image: none;
+    border-color: #000000;
+}
+
+nav.navbar a.nav-link.activenow, nav.navbar a.nav-link:hover {
+    color: #333;
+    border-top-color: #6c757d;
+}

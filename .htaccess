@@ -1,0 +1,19 @@
+DirectoryIndex index.php
+
+RewriteEngine On
+RewriteRule ^contact$ /contact.php [L]
+RewriteRule ^acadexapi$ /acadexapi.php [L]
+RewriteRule ^tracker$ /tracker-v2.php [L]
+RewriteRule ^home$ /home.php [L]
+RewriteRule ^about$ /about.php [L]
+RewriteRule ^services-stats$ /sns.php [L]
+RewriteRule ^projects$ /projects.php [L]
+RewriteRule ^contactme$ /contactme.php [L]
+RewriteRule ^enroll-face$ /python/enrollface.php [L]
+
+Redirect /anguilid /portfolios/anguilid
+Redirect /ariane /portfolios/ariane
+Redirect /bev_solamillo /portfolios/bev_solamillo
+Redirect /peter /portfolios/peter
+
+php_value upload_max_filesize 512M
