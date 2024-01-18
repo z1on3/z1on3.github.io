@@ -65,7 +65,7 @@
         <header class="text-center">
           <h2 data-animate="fadeInDown" class="title">About me</h2>
         </header>
-        <?php include("aboutme.html");?>
+        <?php include("aboutme.html.twig");?>
       </div>
     </section>
     <!-- Service-->
