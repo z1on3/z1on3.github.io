@@ -1,6 +1,7 @@
 {
   "name": "portfolio-nextjs",
   "version": "0.1.0",
+  "author": "z1on3 <panercarlo99@gmail.com>",
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
