@@ -41,7 +41,7 @@ export function Footer() {
             <p style={{color: '#76ABAE'}}>
               © {currentYear} - Carlo Vii. All rights reserved.
             </p>
-            <p className="text-sm mt-2" style={{color: '#31363F'}}>
+            <p className="text-sm mt-2" style={{color: '#EEEEEE'}}>
               Designed by{" "}
               <a
                 href="https://www.facebook.com/CarloV.ph"
