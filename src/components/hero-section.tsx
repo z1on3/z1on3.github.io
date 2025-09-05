@@ -12,7 +12,7 @@ export function HeroSection() {
   }
 
   return (
-    <section className="min-h-screen flex items-center justify-center" style={{background: 'linear-gradient(to bottom right, #222831, #31363F, #222831)'}}>
+    <section className="min-h-screen flex items-center justify-center pt-16" style={{background: 'linear-gradient(to bottom right, #222831, #31363F, #222831)'}}>
       <div className="container px-4 mx-auto">
         <div className="flex flex-col lg:flex-row items-center justify-between gap-12">
           {/* Text Content */}

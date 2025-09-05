@@ -16,7 +16,19 @@ export function AboutSection() {
           <div className="w-24 h-1 mx-auto" style={{backgroundColor: '#76ABAE'}}></div>
         </div>
         
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
+        {/* Profile Image */}
+        <div className="flex justify-center mb-12">
+          <div className="relative w-64 h-64">
+            <Image
+              src="/img/about.jpg"
+              alt="Carlo Vii - IT worker"
+              fill
+              className="rounded-full object-cover border-4" style={{borderColor: '#76ABAE'}}
+            />
+          </div>
+        </div>
+        
+        <div className="grid lg:grid-cols-2 gap-12 items-start">
           {/* Personal Info */}
           <div className="space-y-8">
             <Card className="p-6" style={{backgroundColor: '#222831', borderColor: '#76ABAE'}}>
@@ -51,18 +63,6 @@ export function AboutSection() {
                 </div>
               </CardContent>
             </Card>
-            
-            {/* Profile Image */}
-            <div className="flex justify-center">
-              <div className="relative w-64 h-64">
-                <Image
-                  src="/img/about.jpg"
-                  alt="Carlo Vii - IT worker"
-                  fill
-                  className="rounded-full object-cover border-4" style={{borderColor: '#76ABAE'}}
-                />
-              </div>
-            </div>
           </div>
           
           {/* Skills */}
