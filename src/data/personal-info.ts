@@ -22,12 +22,12 @@ export interface SocialLink {
 }
 
 export const personalInfo: PersonalInfo = {
-  name: 'CARLO VICENTE PANER VILLANOBOS',
-  role: 'PROGRAMMER/DEVELOPER',
-  location: 'DIPOLOG CITY, ZAMBOANGA DEL NORTE',
-  period: '2016 - PRESENT',
-  motivation: 'PASSION',
-  bio: 'I grind HTML and CSS and then weld them with PHP into beautiful and efficient websites, and after long day of work I drink Java then relax by listening to C# melodies.',
+  name: 'Carlo Vicente Paner Villanobos',
+  role: 'Full Stack Developer',
+  location: 'Dipolog City, Zamboanga del Norte',
+  period: '2016 - Present',
+  motivation: 'Innovation & Excellence',
+  bio: 'Experienced full stack developer specializing in web applications and modern technologies. Dedicated to creating efficient, scalable solutions that drive business growth.',
   skills: [
     {
       name: 'PHP',
@@ -59,22 +59,22 @@ export const personalInfo: PersonalInfo = {
     {
       name: 'Facebook',
       url: 'https://www.facebook.com/CarloV.ph',
-      icon: '📘'
+      icon: 'FaFacebook'
     },
     {
       name: 'Instagram',
       url: 'https://www.instagram.com/xcarlov/',
-      icon: '📸'
+      icon: 'FaInstagram'
     },
     {
       name: 'Twitter',
       url: 'https://twitter.com/CarloViiii',
-      icon: '🐦'
+      icon: 'FaTwitter'
     },
     {
       name: 'Email',
       url: 'mailto:panercarlo99@gmail.com',
-      icon: '📧'
+      icon: 'FaEnvelope'
     }
   ]
 };
@@ -87,18 +87,18 @@ export interface Service {
 
 export const services: Service[] = [
   {
-    title: 'Consulting',
-    description: 'You can consult me for your website security. I have experience on website penetration testing so you can count on me.',
-    icon: '🔍'
+    title: 'Security Consulting',
+    description: 'Comprehensive security assessments and penetration testing services to protect your digital assets and ensure compliance.',
+    icon: 'FaSearch'
   },
   {
-    title: 'HTML coding',
-    description: 'I am experienced in HTML coding. I can build responsive websites although I am not skillful on front-end thing.',
-    icon: '🌐'
+    title: 'Frontend Development',
+    description: 'Modern responsive web development using HTML5, CSS3, and JavaScript frameworks to create engaging user experiences.',
+    icon: 'FaCode'
   },
   {
-    title: 'PHP web development',
-    description: 'PHP is my forte. I don\'t use frameworks yet as I stick to native.',
-    icon: '⚡'
+    title: 'Backend Development',
+    description: 'Robust server-side development using PHP and modern frameworks, creating scalable APIs and database solutions.',
+    icon: 'FaBolt'
   }
 ];

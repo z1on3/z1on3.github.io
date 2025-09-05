@@ -9,25 +9,25 @@ export interface Statistic {
 export const statistics: Statistic[] = [
   {
     id: 'websites',
-    icon: '📄',
+    icon: 'Globe',
     value: 4,
     label: 'Websites'
   },
   {
     id: 'clients',
-    icon: '👥',
+    icon: 'Users',
     value: 2,
     label: 'Satisfied Clients'
   },
   {
     id: 'projects',
-    icon: '📋',
+    icon: 'Briefcase',
     value: 5,
     label: 'Projects'
   },
   {
     id: 'apps',
-    icon: '📱',
+    icon: 'Smartphone',
     value: 2,
     label: 'Apps'
   }

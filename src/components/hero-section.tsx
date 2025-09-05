@@ -2,7 +2,8 @@
 
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { ArrowDown, Github, Linkedin, Mail } from "lucide-react"
+import { ArrowDown } from "lucide-react"
+import { FaGithub, FaLinkedin, FaEnvelope } from "react-icons/fa"
 import Image from "next/image"
 
 export function HeroSection() {
@@ -11,33 +12,33 @@ export function HeroSection() {
   }
 
   return (
-    <section className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
+    <section className="min-h-screen flex items-center justify-center" style={{background: 'linear-gradient(to bottom right, #222831, #31363F, #222831)'}}>
       <div className="container px-4 mx-auto">
         <div className="flex flex-col lg:flex-row items-center justify-between gap-12">
           {/* Text Content */}
           <div className="flex-1 text-center lg:text-left">
-            <Badge variant="secondary" className="mb-4">
-              👋 Welcome to my portfolio
+            <Badge variant="secondary" className="mb-4" style={{backgroundColor: '#76ABAE', color: '#222831'}}>
+              Welcome to my portfolio
             </Badge>
             
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6">
-              Hello, <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">Hola!</span>
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6" style={{color: '#EEEEEE'}}>
+              <span style={{color: '#76ABAE'}}>Carlo Vii</span>
             </h1>
             
-            <h2 className="text-xl md:text-2xl lg:text-3xl text-gray-300 mb-6">
-              I&apos;m <span className="text-white font-semibold">Carlo Vii</span>
+            <h2 className="text-xl md:text-2xl lg:text-3xl mb-6" style={{color: '#76ABAE'}}>
+              Full Stack Developer
             </h2>
             
-            <p className="text-lg md:text-xl text-gray-400 mb-8 max-w-2xl">
-              I grind HTML and CSS and then weld them with PHP into beautiful and efficient websites, 
-              and after long day of work I drink Java then relax by listening to C# melodies.
+            <p className="text-lg md:text-xl mb-8 max-w-2xl" style={{color: '#76ABAE'}}>
+              Specializing in web development, I create efficient and scalable solutions using modern technologies. 
+              With expertise in frontend and backend development, I deliver professional digital experiences.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-8">
               <Button 
                 size="lg" 
                 onClick={() => scrollToSection('projects')}
-                className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
+                style={{backgroundColor: '#76ABAE', color: '#222831'}} className="hover:opacity-90 transition-opacity"
               >
                 View My Work
               </Button>
@@ -45,7 +46,7 @@ export function HeroSection() {
                 variant="outline" 
                 size="lg"
                 onClick={() => scrollToSection('contact')}
-                className="border-purple-500 text-purple-400 hover:bg-purple-500 hover:text-white"
+                className="border-[#76ABAE] text-[#76ABAE] bg-transparent hover:bg-[#76ABAE] hover:text-[#222831]"
               >
                 Get In Touch
               </Button>
@@ -53,25 +54,29 @@ export function HeroSection() {
             
             <div className="flex justify-center lg:justify-start gap-6">
               <a 
-                href="https://github.com" 
-                className="text-gray-400 hover:text-white transition-colors"
+                href="https://github.com/z1on3" 
+                className="transition-colors hover:text-white" style={{color: '#76ABAE'}}
                 aria-label="GitHub"
+                target="_blank"
+                rel="noopener noreferrer"
               >
-                <Github size={24} />
+                <FaGithub size={24} />
               </a>
               <a 
-                href="https://linkedin.com" 
-                className="text-gray-400 hover:text-white transition-colors"
+                href="https://linkedin.com/in/carlo-vii" 
+                className="transition-colors hover:text-white" style={{color: '#76ABAE'}}
                 aria-label="LinkedIn"
+                target="_blank"
+                rel="noopener noreferrer"
               >
-                <Linkedin size={24} />
+                <FaLinkedin size={24} />
               </a>
               <a 
                 href="mailto:panercarlo99@gmail.com" 
-                className="text-gray-400 hover:text-white transition-colors"
+                className="transition-colors hover:text-white" style={{color: '#76ABAE'}}
                 aria-label="Email"
               >
-                <Mail size={24} />
+                <FaEnvelope size={24} />
               </a>
             </div>
           </div>
@@ -79,8 +84,8 @@ export function HeroSection() {
           {/* Profile Image */}
           <div className="flex-shrink-0">
             <div className="relative">
-              <div className="w-80 h-80 md:w-96 md:h-96 rounded-full bg-gradient-to-r from-purple-600 to-pink-600 p-1">
-                <div className="w-full h-full rounded-full bg-slate-900 flex items-center justify-center">
+              <div className="w-80 h-80 md:w-96 md:h-96 rounded-full p-1" style={{background: 'linear-gradient(to right, #76ABAE, #76ABAE)'}}>
+                <div className="w-full h-full rounded-full flex items-center justify-center" style={{backgroundColor: '#31363F'}}>
                   <Image
                     src="/img/logo-big.png"
                     alt="Carlo Vii"
@@ -101,7 +106,7 @@ export function HeroSection() {
         <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2">
           <button
             onClick={() => scrollToSection('about')}
-            className="text-gray-400 hover:text-white transition-colors animate-bounce"
+            className="transition-colors animate-bounce hover:text-white" style={{color: '#76ABAE'}}
             aria-label="Scroll down"
           >
             <ArrowDown size={24} />

@@ -25,13 +25,13 @@ export function Navigation() {
   }
 
   return (
-    <nav className="fixed top-0 w-full bg-white/90 backdrop-blur-sm z-40 border-b">
+    <nav className="fixed top-0 w-full backdrop-blur-sm z-40 border-b" style={{backgroundColor: 'rgba(34, 40, 49, 0.95)', borderBottomColor: '#76ABAE'}}>
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <button
             onClick={() => scrollToSection('#hero')}
-            className="text-xl font-bold text-gray-900 hover:text-purple-600 transition-colors"
+            className="text-xl font-bold transition-colors hover:text-[#76ABAE]" style={{color: '#EEEEEE'}}
           >
             Carlo Vii
           </button>
@@ -42,7 +42,7 @@ export function Navigation() {
               <button
                 key={item.href}
                 onClick={() => scrollToSection(item.href)}
-                className="text-gray-700 hover:text-purple-600 transition-colors font-medium"
+                className="transition-colors font-medium hover:text-[#76ABAE]" style={{color: '#EEEEEE'}}
               >
                 {item.label}
               </button>
@@ -54,7 +54,7 @@ export function Navigation() {
             variant="ghost"
             size="icon"
             onClick={() => setIsOpen(!isOpen)}
-            className="md:hidden"
+            className="md:hidden" style={{color: '#EEEEEE'}}
           >
             {isOpen ? <X size={24} /> : <Menu size={24} />}
           </Button>
@@ -62,13 +62,13 @@ export function Navigation() {
 
         {/* Mobile Navigation */}
         {isOpen && (
-          <div className="md:hidden bg-white border-t">
+          <div className="md:hidden border-t" style={{backgroundColor: '#222831', borderTopColor: '#76ABAE'}}>
             <div className="py-4 space-y-2">
               {navItems.map((item) => (
                 <button
                   key={item.href}
                   onClick={() => scrollToSection(item.href)}
-                  className="block w-full text-left px-4 py-2 text-gray-700 hover:text-purple-600 hover:bg-purple-50 transition-colors"
+                  className="block w-full text-left px-4 py-2 transition-colors hover:text-[#76ABAE] hover:bg-[#76ABAE]/10" style={{color: '#EEEEEE'}}
                 >
                   {item.label}
                 </button>

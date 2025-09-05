@@ -17,15 +17,15 @@ export function ProjectsSection() {
     : projects.filter(project => project.category === activeFilter)
 
   return (
-    <section id="projects" className="py-20 bg-white">
+    <section id="projects" className="py-20" style={{backgroundColor: '#31363F'}}>
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+          <h2 className="text-4xl md:text-5xl font-bold mb-4" style={{color: '#EEEEEE'}}>
             My Work
           </h2>
-          <div className="w-24 h-1 bg-gradient-to-r from-purple-600 to-pink-600 mx-auto mb-6"></div>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            I have 2 personal projects and 3 private projects. So some of the content below are just a template for future projects.
+          <div className="w-24 h-1 mx-auto mb-6" style={{backgroundColor: '#76ABAE'}}></div>
+          <p className="text-lg max-w-2xl mx-auto" style={{color: '#76ABAE'}}>
+            A selection of projects showcasing expertise in web development, data analysis, and software engineering solutions.
           </p>
         </div>
 
@@ -36,10 +36,11 @@ export function ProjectsSection() {
               key={category.id}
               variant={activeFilter === category.id ? "default" : "outline"}
               onClick={() => setActiveFilter(category.id)}
-              className={activeFilter === category.id 
-                ? "bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700" 
-                : "hover:bg-purple-50"
+              style={activeFilter === category.id 
+                ? {backgroundColor: '#76ABAE', color: '#222831'} 
+                : {color: '#EEEEEE', borderColor: '#76ABAE', backgroundColor: 'transparent'}
               }
+              className="hover:opacity-80 transition-opacity"
             >
               {category.label}
             </Button>
@@ -51,7 +52,8 @@ export function ProjectsSection() {
           {filteredProjects.map((project) => (
             <Card 
               key={project.id} 
-              className="group overflow-hidden hover:shadow-xl transition-all duration-300 cursor-pointer"
+              className="group overflow-hidden hover:shadow-xl transition-all duration-300 cursor-pointer pt-0"
+              style={{backgroundColor: '#222831', borderColor: '#76ABAE'}}
               onClick={() => setSelectedProject(project)}
             >
               <div className="relative overflow-hidden">
@@ -77,7 +79,7 @@ export function ProjectsSection() {
               <CardContent className="p-6">
                 <div className="flex flex-wrap gap-2 mb-4">
                   {project.technologies.map((tech, techIndex) => (
-                    <Badge key={techIndex} variant="secondary" className="text-xs">
+                    <Badge key={techIndex} variant="secondary" className="text-xs" style={{backgroundColor: '#76ABAE', color: '#222831'}}>
                       {tech}
                     </Badge>
                   ))}
@@ -85,18 +87,48 @@ export function ProjectsSection() {
                 
                 <div className="flex gap-2">
                   {project.liveUrl && (
-                    <Button size="sm" variant="outline" className="flex-1">
+                    <Button 
+                      size="sm" 
+                      variant="outline" 
+                      className="flex-1 border-[#76ABAE] text-[#76ABAE] bg-transparent hover:bg-[#76ABAE] hover:text-[#222831]" 
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        if (project.liveUrl) {
+                          const url = project.liveUrl.startsWith('http') ? project.liveUrl : `/${project.liveUrl}`;
+                          window.open(url, '_blank');
+                        }
+                      }}
+                    >
                       <ExternalLink size={16} className="mr-2" />
                       Live Demo
                     </Button>
                   )}
                   {project.githubUrl && (
-                    <Button size="sm" variant="outline">
+                    <Button 
+                      size="sm" 
+                      variant="outline"
+                      className="border-[#76ABAE] text-[#76ABAE] bg-transparent hover:bg-[#76ABAE] hover:text-[#222831]"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        window.open(project.githubUrl, '_blank');
+                      }}
+                    >
                       <Github size={16} />
                     </Button>
                   )}
                   {project.caseStudyUrl && (
-                    <Button size="sm" variant="outline">
+                    <Button 
+                      size="sm" 
+                      variant="outline"
+                      className="border-[#76ABAE] text-[#76ABAE] bg-transparent hover:bg-[#76ABAE] hover:text-[#222831]"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        if (project.caseStudyUrl) {
+                          const url = project.caseStudyUrl.startsWith('http') ? project.caseStudyUrl : `/${project.caseStudyUrl}`;
+                          window.open(url, '_blank');
+                        }
+                      }}
+                    >
                       <Download size={16} />
                     </Button>
                   )}
@@ -108,15 +140,16 @@ export function ProjectsSection() {
 
         {/* Project Modal/Detail View */}
         {selectedProject && (
-          <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-            <div className="bg-white rounded-lg max-w-4xl max-h-[90vh] overflow-y-auto">
+          <div className="fixed inset-0 flex items-center justify-center p-4 z-50" style={{backgroundColor: 'rgba(34, 40, 49, 0.9)'}}>
+            <div className="rounded-lg max-w-4xl max-h-[90vh] overflow-y-auto" style={{backgroundColor: '#222831', borderColor: '#76ABAE', border: '1px solid'}}>
               <div className="p-6">
                 <div className="flex justify-between items-start mb-4">
-                  <h3 className="text-2xl font-bold">{selectedProject.title}</h3>
+                  <h3 className="text-2xl font-bold" style={{color: '#EEEEEE'}}>{selectedProject.title}</h3>
                   <Button 
                     variant="ghost" 
                     onClick={() => setSelectedProject(null)}
                     className="text-2xl"
+                    style={{color: '#76ABAE'}}
                   >
                     ×
                   </Button>
@@ -132,13 +165,13 @@ export function ProjectsSection() {
                   />
                 </div>
                 
-                <p className="text-gray-700 mb-6 leading-relaxed">
+                <p className="mb-6 leading-relaxed" style={{color: '#76ABAE'}}>
                   {selectedProject.longDescription}
                 </p>
                 
                 <div className="flex flex-wrap gap-2 mb-6">
                   {selectedProject.technologies.map((tech, techIndex) => (
-                    <Badge key={techIndex} variant="secondary">
+                    <Badge key={techIndex} variant="secondary" style={{backgroundColor: '#76ABAE', color: '#222831'}}>
                       {tech}
                     </Badge>
                   ))}
@@ -146,13 +179,30 @@ export function ProjectsSection() {
                 
                 <div className="flex gap-4">
                   {selectedProject.liveUrl && (
-                    <Button>
+                    <Button 
+                      className="bg-[#76ABAE] text-[#222831] hover:bg-[#76ABAE]/90"
+                      onClick={() => {
+                        if (selectedProject.liveUrl) {
+                          const url = selectedProject.liveUrl.startsWith('http') ? selectedProject.liveUrl : `/${selectedProject.liveUrl}`;
+                          window.open(url, '_blank');
+                        }
+                      }}
+                    >
                       <ExternalLink size={16} className="mr-2" />
                       Visit Website
                     </Button>
                   )}
                   {selectedProject.caseStudyUrl && (
-                    <Button variant="outline">
+                    <Button 
+                      variant="outline"
+                      className="border-[#76ABAE] text-[#76ABAE] bg-transparent hover:bg-[#76ABAE] hover:text-[#222831]"
+                      onClick={() => {
+                        if (selectedProject.caseStudyUrl) {
+                          const url = selectedProject.caseStudyUrl.startsWith('http') ? selectedProject.caseStudyUrl : `/${selectedProject.caseStudyUrl}`;
+                          window.open(url, '_blank');
+                        }
+                      }}
+                    >
                       <Download size={16} className="mr-2" />
                       Download Case Study
                     </Button>
