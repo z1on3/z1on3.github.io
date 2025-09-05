@@ -75,7 +75,7 @@
           </div>
           <!-- /.6-->
           <div class="col-md-6 text-center text-lg-right mt-4 mt-lg-0">
-            <p>© 2021 - Carlo Vii. All rights reserved.</p>
+            <p>©<?php echo time("Y"); ?> - Carlo Vii. All rights reserved.</p>
           </div>
           <div class="col-12 mt-4 text-center">
             <p>Designed by <a href='https://www.facebook.com/CarloV.ph' target="_blank" >Carlo Vii</a></p>
