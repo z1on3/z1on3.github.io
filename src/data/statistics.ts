@@ -10,13 +10,13 @@ export const statistics: Statistic[] = [
   {
     id: 'websites',
     icon: 'Globe',
-    value: 4,
+    value: 20,
     label: 'Websites'
   },
   {
     id: 'clients',
     icon: 'Users',
-    value: 2,
+    value: 10,
     label: 'Satisfied Clients'
   },
   {
@@ -28,7 +28,7 @@ export const statistics: Statistic[] = [
   {
     id: 'apps',
     icon: 'Smartphone',
-    value: 2,
+    value: 4,
     label: 'Apps'
   }
 ];

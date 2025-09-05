@@ -50,39 +50,6 @@ export const projects: Project[] = [
     technologies: ['Python', 'Machine Learning', 'Computer Vision', 'OpenCV'],
     liveUrl: 'https://www.youtube.com/watch?v=tPq5MbQ4fP4',
     featured: true
-  },
-  {
-    id: 'project-template-1',
-    title: 'Marketing Project Template',
-    description: 'Short project description goes here...',
-    longDescription: 'Projecting surrounded literature yet delightful alteration but bed men. Open are from long why cold. If must snug by upon sang loud left. As me do preference entreaties compliment motionless ye literature. Day behaviour explained law remainder. Produce can cousins account you pasture. Peculiar delicate an pleasant provided do perceive.',
-    category: 'marketing',
-    image: '/img/portfolio-4.jpg',
-    images: ['/img/main-slider1.jpg', '/img/main-slider2.jpg', '/img/main-slider3.jpg'],
-    technologies: ['Marketing', 'Strategy'],
-    featured: false
-  },
-  {
-    id: 'project-template-2',
-    title: 'Web Design Project Template',
-    description: 'Short project description goes here...',
-    longDescription: 'Projecting surrounded literature yet delightful alteration but bed men. Open are from long why cold. If must snug by upon sang loud left. As me do preference entreaties compliment motionless ye literature.',
-    category: 'webdesign',
-    image: '/img/portfolio-5.jpg',
-    images: ['/img/main-slider1.jpg', '/img/main-slider2.jpg', '/img/main-slider3.jpg'],
-    technologies: ['HTML', 'CSS', 'JavaScript'],
-    featured: false
-  },
-  {
-    id: 'project-template-3',
-    title: 'SEO Project Template',
-    description: 'Short project description goes here...',
-    longDescription: 'Projecting surrounded literature yet delightful alteration but bed men. Open are from long why cold. If must snug by upon sang loud left.',
-    category: 'seo',
-    image: '/img/portfolio-7.jpg',
-    images: ['/img/main-slider1.jpg', '/img/main-slider2.jpg', '/img/main-slider3.jpg'],
-    technologies: ['SEO', 'Analytics'],
-    featured: false
   }
 ];
 
