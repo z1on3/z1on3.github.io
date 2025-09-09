@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { ArrowDown } from "lucide-react"
-import { FaGithub, FaLinkedin, FaEnvelope } from "react-icons/fa"
+import { FaGithub, FaLinkedin, FaEnvelope, FaFile } from "react-icons/fa"
 import Image from "next/image"
 
 export function HeroSection() {
@@ -37,10 +37,10 @@ export function HeroSection() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-8">
               <Button 
                 size="lg" 
-                onClick={() => scrollToSection('projects')}
+                onClick={() => window.open('/pdf/CarloVii-updated-cv.pdf', '_blank')}
                 style={{backgroundColor: '#76ABAE', color: '#222831'}} className="hover:opacity-90 transition-opacity"
               >
-                View My Work
+                Download CV
               </Button>
               <Button 
                 variant="outline" 
@@ -78,6 +78,7 @@ export function HeroSection() {
               >
                 <FaEnvelope size={24} />
               </a>
+             
             </div>
           </div>
           
