@@ -15,7 +15,7 @@ export default function V4Redesign() {
   useEffect(() => {
     setMounted(true);
     setTerminalOutput([
-      <div key="init" className="text-cyan-400">System initialized. Type 'help' for commands.</div>
+      <div key="init" className="text-cyan-400">System initialized. Type &apos;help&apos; for commands.</div>
     ]);
   }, []);
 

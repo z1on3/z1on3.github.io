@@ -3,13 +3,13 @@
 import React, { useState } from "react";
 import { personalInfo, services } from "../../data/personal-info";
 import { projects } from "../../data/projects";
-import { Folder, FileJson, FileCode2, FileText, ChevronRight, ChevronDown, Terminal, Play, Settings, Bell, GitBranch } from "lucide-react";
+import { FileJson, FileCode2, FileText, ChevronRight, ChevronDown, Settings, Bell, GitBranch } from "lucide-react";
 
 type File = "about.json" | "skills.js" | "services.php" | "projects.ts";
 
 export default function V1CodeEditor() {
   const [activeFile, setActiveFile] = useState<File>("about.json");
-  const [isExplorerOpen, setIsExplorerOpen] = useState(true);
+  const [isExplorerOpen] = useState(true);
 
   const getFileIcon = (filename: string) => {
     if (filename.endsWith(".json")) return <FileJson className="w-4 h-4 text-yellow-500" />;
@@ -105,15 +105,15 @@ export default function V1CodeEditor() {
             {activeFile === "about.json" && (
               <pre className="text-[#d4d4d4]">
                 <span className="text-[#ce9178]">{"{"}</span><br/>
-                {"  "}<span className="text-[#9cdcfe]">"name"</span>: <span className="text-[#ce9178]">"{personalInfo.name}"</span>,<br/>
-                {"  "}<span className="text-[#9cdcfe]">"role"</span>: <span className="text-[#ce9178]">"{personalInfo.role}"</span>,<br/>
-                {"  "}<span className="text-[#9cdcfe]">"location"</span>: <span className="text-[#ce9178]">"{personalInfo.location}"</span>,<br/>
-                {"  "}<span className="text-[#9cdcfe]">"motivation"</span>: <span className="text-[#ce9178]">"{personalInfo.motivation}"</span>,<br/>
-                {"  "}<span className="text-[#9cdcfe]">"bio"</span>: <span className="text-[#ce9178]">"{personalInfo.bio}"</span>,<br/>
-                {"  "}<span className="text-[#9cdcfe]">"contact"</span>: <span className="text-[#ce9178]">{"{"}</span><br/>
+                {"  "}<span className="text-[#9cdcfe]">&quot;name&quot;</span>: <span className="text-[#ce9178]">&quot;{personalInfo.name}&quot;</span>,<br/>
+                {"  "}<span className="text-[#9cdcfe]">&quot;role&quot;</span>: <span className="text-[#ce9178]">&quot;{personalInfo.role}&quot;</span>,<br/>
+                {"  "}<span className="text-[#9cdcfe]">&quot;location&quot;</span>: <span className="text-[#ce9178]">&quot;{personalInfo.location}&quot;</span>,<br/>
+                {"  "}<span className="text-[#9cdcfe]">&quot;motivation&quot;</span>: <span className="text-[#ce9178]">&quot;{personalInfo.motivation}&quot;</span>,<br/>
+                {"  "}<span className="text-[#9cdcfe]">&quot;bio&quot;</span>: <span className="text-[#ce9178]">&quot;{personalInfo.bio}&quot;</span>,<br/>
+                {"  "}<span className="text-[#9cdcfe]">&quot;contact&quot;</span>: <span className="text-[#ce9178]">{"{"}</span><br/>
                 {personalInfo.socialLinks.map((s, i) => (
                   <span key={s.name}>
-                    {"    "}<span className="text-[#9cdcfe]">"{s.name.toLowerCase()}"</span>: <span className="text-[#ce9178]">"{s.url}"</span>{i < personalInfo.socialLinks.length - 1 ? ',' : ''}<br/>
+                    {"    "}<span className="text-[#9cdcfe]">&quot;{s.name.toLowerCase()}&quot;</span>: <span className="text-[#ce9178]">&quot;{s.url}&quot;</span>{i < personalInfo.socialLinks.length - 1 ? ',' : ''}<br/>
                   </span>
                 ))}
                 {"  "}<span className="text-[#ce9178]">{"}"}</span><br/>
@@ -127,7 +127,7 @@ export default function V1CodeEditor() {
                 {personalInfo.skills.map((s, i) => (
                   <span key={s.name}>
                     {"  "}{"{\n"}
-                    {"    "}<span className="text-[#9cdcfe]">name</span>: <span className="text-[#ce9178]">'{s.name}'</span>,<br/>
+                    {"    "}<span className="text-[#9cdcfe]">name</span>: <span className="text-[#ce9178]">&apos;{s.name}&apos;</span>,<br/>
                     {"    "}<span className="text-[#9cdcfe]">proficiency</span>: <span className="text-[#b5cea8]">{s.level}</span><br/>
                     {"  "}{"}"}{i < personalInfo.skills.length - 1 ? ',' : ''}<br/>
                   </span>
@@ -146,8 +146,8 @@ export default function V1CodeEditor() {
                 {services.map((s, i) => (
                   <span key={s.title}>
                     {"      "}[\n
-                    {"        "}<span className="text-[#ce9178]">'title'</span> =&gt; <span className="text-[#ce9178]">'{s.title}'</span>,<br/>
-                    {"        "}<span className="text-[#ce9178]">'description'</span> =&gt; <span className="text-[#ce9178]">'{s.description}'</span><br/>
+                    {"        "}<span className="text-[#ce9178]">&apos;title&apos;</span> =&gt; <span className="text-[#ce9178]">&apos;{s.title}&apos;</span>,<br/>
+                    {"        "}<span className="text-[#ce9178]">&apos;description&apos;</span> =&gt; <span className="text-[#ce9178]">&apos;{s.description}&apos;</span><br/>
                     {"      "}]{i < services.length - 1 ? ',' : ''}<br/>
                   </span>
                 ))}
@@ -160,16 +160,16 @@ export default function V1CodeEditor() {
 
             {activeFile === "projects.ts" && (
               <pre className="text-[#d4d4d4]">
-                <span className="text-[#569cd6]">import</span> {"{"} Project {"}"} <span className="text-[#569cd6]">from</span> <span className="text-[#ce9178]">'@/types'</span>;<br/><br/>
+                <span className="text-[#569cd6]">import</span> {"{"} Project {"}"} <span className="text-[#569cd6]">from</span> <span className="text-[#ce9178]">&apos;@/types&apos;</span>;<br/><br/>
                 <span className="text-[#569cd6]">export</span> <span className="text-[#569cd6]">const</span> <span className="text-[#4fc1ff]">featuredProjects</span>: <span className="text-[#4ec9b0]">Project</span>[] = [<br/>
                 {projects.map((p, i) => (
                   <span key={p.id}>
                     {"  "}{"{\n"}
-                    {"    "}<span className="text-[#9cdcfe]">id</span>: <span className="text-[#ce9178]">'{p.id}'</span>,<br/>
-                    {"    "}<span className="text-[#9cdcfe]">title</span>: <span className="text-[#ce9178]">'{p.title}'</span>,<br/>
-                    {"    "}<span className="text-[#9cdcfe]">technologies</span>: [<span className="text-[#ce9178]">'{p.technologies.join("', '")}'</span>],<br/>
-                    {"    "}<span className="text-[#9cdcfe]">category</span>: <span className="text-[#ce9178]">'{p.category}'</span><br/>
-                    {p.liveUrl && <span className="text-[#9cdcfe]">{"    "}liveUrl</span> + `: ` + <span className="text-[#ce9178]">'{p.liveUrl}'</span> + `,\n`}
+                    {"    "}<span className="text-[#9cdcfe]">id</span>: <span className="text-[#ce9178]">&apos;{p.id}&apos;</span>,<br/>
+                    {"    "}<span className="text-[#9cdcfe]">title</span>: <span className="text-[#ce9178]">&apos;{p.title}&apos;</span>,<br/>
+                    {"    "}<span className="text-[#9cdcfe]">technologies</span>: [<span className="text-[#ce9178]">&apos;{p.technologies.join("&apos;, &apos;")}&apos;</span>],<br/>
+                    {"    "}<span className="text-[#9cdcfe]">category</span>: <span className="text-[#ce9178]">&apos;{p.category}&apos;</span><br/>
+                    {p.liveUrl && <span className="text-[#9cdcfe]">{"    "}liveUrl</span> + `: ` + <span className="text-[#ce9178]">&apos;{p.liveUrl}&apos;</span> + `,\n`}
                     {"  "}{"}"}{i < projects.length - 1 ? ',' : ''}<br/>
                   </span>
                 ))}

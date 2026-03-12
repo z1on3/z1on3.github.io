@@ -76,7 +76,7 @@ export default function PortfolioHome() {
       const args = rawCmd.split(" ").filter(Boolean);
       const cmd = args.length > 0 ? args[0].toLowerCase() : "";
       
-      let addedNodes: React.ReactNode[] = [
+      const addedNodes: React.ReactNode[] = [
         <div key={`cmd-${Date.now()}`} className="text-gray-400"><span className="text-cyan-500">❯</span> {rawCmd}</div>
       ];
 
@@ -162,7 +162,7 @@ export default function PortfolioHome() {
              if (dnsData.Answer && dnsData.Answer.length > 0) {
                 targetIp = dnsData.Answer[0].data;
              }
-           } catch (e) { /* ignore fallback */ }
+           } catch { /* ignore fallback */ }
            
            setTerminalOutput(prev => [...prev, <div key={`ping-info-${Date.now()}`} className="pl-4 text-gray-300">PING {target} ({targetIp}): 56 data bytes</div>]);
 
@@ -174,7 +174,7 @@ export default function PortfolioHome() {
                  const end = performance.now();
                  const time = (end - start).toFixed(1);
                  pingRes = <div key={`ping-res-${Date.now()}-${i}`} className="pl-4 text-green-400">64 bytes from {targetIp}: icmp_seq={i-1} ttl=116 time={time} ms</div>;
-              } catch (err) {
+              } catch {
                  pingRes = <div key={`ping-err-${Date.now()}-${i}`} className="pl-4 text-red-400">Request timeout to {targetIp}</div>;
               }
               setTerminalOutput(prev => [...prev, pingRes]);
@@ -508,6 +508,7 @@ export default function PortfolioHome() {
                 {selectedProject.images && selectedProject.images.length > 0 ? (
                   <>
                     <div className="w-full aspect-video bg-[#0a0a0e] rounded border border-white/5 flex items-center justify-center overflow-hidden">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img src={selectedProject.images[selectedImageIndex]} alt={`${selectedProject.title} screenshot`} className="w-full h-full object-contain" />
                     </div>
                     {selectedProject.images.length > 1 && (
@@ -518,6 +519,7 @@ export default function PortfolioHome() {
                             onClick={() => setSelectedImageIndex(idx)}
                             className={`w-20 h-12 md:w-24 md:h-14 flex-shrink-0 bg-[#0a0a0e] border rounded overflow-hidden transition-all ${selectedImageIndex === idx ? 'border-cyan-400 opacity-100' : 'border-white/10 opacity-50 hover:opacity-100'}`}
                           >
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
                             <img src={img} alt="thumbnail" className="w-full h-full object-cover" />
                           </button>
                         ))}
@@ -526,6 +528,7 @@ export default function PortfolioHome() {
                   </>
                 ) : selectedProject.image ? (
                   <div className="w-full aspect-video bg-[#0a0a0e] rounded border border-white/5 flex items-center justify-center overflow-hidden">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img src={selectedProject.image} alt={selectedProject.title} className="w-full h-full object-contain" />
                   </div>
                 ) : null}

@@ -3,7 +3,7 @@
 import React from "react";
 import { personalInfo, services } from "../../data/personal-info";
 import { projects } from "../../data/projects";
-import { Code2, Server, Shield, Database, Layout, Mail, Terminal, MapPin, User, Star, ChevronRight } from "lucide-react";
+import { Code2, Server, Shield, Database, Layout, Terminal, MapPin, User, Star, ChevronRight } from "lucide-react";
 
 export default function V3Dashboard() {
   const getIcon = (title: string) => {
@@ -133,6 +133,7 @@ export default function V3Dashboard() {
               {projects.slice(0, 3).map((p) => (
                 <div key={p.id} className="group cursor-pointer">
                   <div className="w-full aspect-video bg-[#1e1e24] rounded-2xl overflow-hidden mb-4 border border-white/5 group-hover:border-indigo-500/30 transition-colors relative">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img 
                       src={p.image.startsWith('/') ? p.image : `/${p.image}`} 
                       alt={p.title} 

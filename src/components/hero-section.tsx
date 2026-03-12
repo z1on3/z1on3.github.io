@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { ArrowDown } from "lucide-react"
-import { FaGithub, FaLinkedin, FaEnvelope, FaFile } from "react-icons/fa"
+import { FaGithub, FaLinkedin, FaEnvelope } from "react-icons/fa"
 import Image from "next/image"
 
 export function HeroSection() {
