@@ -15,6 +15,18 @@ export interface Project {
 
 export const projects: Project[] = [
   {
+    id: 'freelancify',
+    title: 'Freelancify',
+    description: 'An all-in-one invoicing and tax platform built for Philippine freelancers.',
+    longDescription: 'Built specifically for Philippine freelancers and solo entrepreneurs who want to look professional and stay compliant. Features include professional invoicing, client management, BIR compliance, tax calculator, payment tracking, and cash flow insights.',
+    category: 'personal',
+    image: '/img/freelancify.png',
+    images: ['/img/freelancify.png'],
+    technologies: ['Next.js', 'TypeScript', 'TailwindCSS'],
+    liveUrl: 'https://freelancify.carlovii.com/',
+    featured: true
+  },
+  {
     id: 'covid-tracker',
     title: 'Covid-19 Tracker LITE',
     description: 'A helpful very lightweight tool to track COVID-19 cases in realtime.',

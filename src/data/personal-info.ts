@@ -72,9 +72,9 @@ export const personalInfo: PersonalInfo = {
       icon: 'FaTwitter'
     },
     {
-      name: 'Email',
-      url: 'mailto:panercarlo99@gmail.com',
-      icon: 'FaEnvelope'
+      name: 'GitHub',
+      url: 'https://github.com/z1on3',
+      icon: 'FaGithub'
     }
   ]
 };
