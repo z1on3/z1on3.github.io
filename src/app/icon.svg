@@ -1,0 +1,6 @@
+<svg width="256" height="256" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
+  <rect width="256" height="256" rx="55" fill="#050507" stroke="#06b6d4" stroke-width="12"/>
+  <text x="50%" y="54%" font-family="monospace, ui-monospace, SFMono-Regular" font-weight="900" font-size="130" fill="#06b6d4" text-anchor="middle" alignment-baseline="middle" dominant-baseline="central" letter-spacing="-4">
+    CV
+  </text>
+</svg>
