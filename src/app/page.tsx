@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { personalInfo } from "../data/personal-info";
 import { projects, Project } from "../data/projects";
-import { Terminal as TerminalIcon, Cpu, Activity, Shield, Code, ChevronRight, Mail, ExternalLink, Download, X, Maximize2, Minimize2 } from "lucide-react";
+import { Terminal as TerminalIcon, Cpu, Activity, Shield, Code, ChevronRight, Mail, ExternalLink, Download, X, Maximize2, Minimize2, Minus, Square } from "lucide-react";
 
 export default function PortfolioHome() {
   const [input, setInput] = useState("");
@@ -14,6 +14,8 @@ export default function PortfolioHome() {
   const [isTerminalExpanded, setIsTerminalExpanded] = useState(false);
   const [cmdHistory, setCmdHistory] = useState<string[]>([]);
   const [historyIndex, setHistoryIndex] = useState(-1);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle");
   const terminalContainerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -29,6 +31,38 @@ export default function PortfolioHome() {
       terminalContainerRef.current.scrollTop = terminalContainerRef.current.scrollHeight;
     }
   }, [terminalOutput]);
+
+  const handleContactSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitStatus("idle");
+    const formData = new FormData(e.currentTarget);
+    const data = {
+      name: formData.get("name"),
+      email: formData.get("email"),
+      message: formData.get("message"),
+    };
+    
+    try {
+      const formTarget = e.currentTarget;
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: { "Content-Type": "application/json" }
+      });
+      if (res.ok) {
+        setSubmitStatus("success");
+        formTarget.reset();
+        setTimeout(() => setSubmitStatus("idle"), 5000);
+      } else {
+        setSubmitStatus("error");
+      }
+    } catch {
+      setSubmitStatus("error");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   const handleCommand = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "ArrowUp") {
@@ -248,7 +282,7 @@ export default function PortfolioHome() {
             <button onClick={() => scrollToSection('databanks')} className="text-gray-400 px-8 py-3 font-mono text-sm tracking-widest uppercase border border-transparent hover:border-gray-700 hover:text-white transition-colors flex items-center gap-2">
               Access Logs
             </button>
-            <a href="/pdf/carlovii-updated-cv.pdf" target="_blank" className="text-gray-400 px-8 py-3 font-mono text-sm tracking-widest uppercase hover:text-cyan-400 transition-colors flex items-center gap-2">
+            <a href="/pdf/CarloVii-updated-cv.pdf" target="_blank" className="text-gray-400 px-8 py-3 font-mono text-sm tracking-widest uppercase hover:text-cyan-400 transition-colors flex items-center gap-2">
               <Download className="w-4 h-4" /> Download CV
             </a>
           </div>
@@ -265,13 +299,27 @@ export default function PortfolioHome() {
               <div className="p-4 border-b border-white/5 flex items-center justify-between font-mono text-xs text-gray-500 shrink-0">
                 <span className="flex items-center gap-2"><TerminalIcon className="w-4 h-4" /> ROOT_ACCESS</span>
                 <div className="flex items-center gap-4 z-10">
-                  <span>sys.ver.1.0.4</span>
-                  <button onClick={(e) => { e.stopPropagation(); setIsTerminalExpanded(!isTerminalExpanded); }} className="hover:text-cyan-400 transition-colors p-1 bg-black/20 rounded">
-                    {isTerminalExpanded ? <Minimize2 className="w-4 h-4" /> : <Maximize2 className="w-4 h-4" />}
-                  </button>
+                  <span className="hidden sm:inline-block">sys.ver.1.0.4</span>
+                  {isTerminalExpanded ? (
+                    <div className="flex items-center gap-3 ml-2">
+                      <button onClick={(e) => { e.stopPropagation(); setIsTerminalExpanded(false); }} className="hover:text-cyan-400 transition-colors">
+                        <Minus className="w-4 h-4" />
+                      </button>
+                      <button onClick={(e) => { e.stopPropagation(); setIsTerminalExpanded(false); }} className="hover:text-cyan-400 transition-colors">
+                        <Square className="w-3.5 h-3.5" />
+                      </button>
+                      <button onClick={(e) => { e.stopPropagation(); setIsTerminalExpanded(false); }} className="hover:text-red-400 transition-colors">
+                        <X className="w-4 h-4" />
+                      </button>
+                    </div>
+                  ) : (
+                    <button onClick={(e) => { e.stopPropagation(); setIsTerminalExpanded(true); }} className="hover:text-cyan-400 transition-colors p-1 bg-black/20 rounded">
+                      <Maximize2 className="w-4 h-4" />
+                    </button>
+                  )}
                 </div>
               </div>
-              <div className={`p-4 font-mono text-sm overflow-y-auto flex flex-col scroll-smooth ${isTerminalExpanded ? 'flex-1' : 'h-72 sm:h-64'}`} ref={terminalContainerRef}>
+              <div className={`p-4 font-mono text-sm overflow-y-auto flex flex-col scroll-smooth flex-1 min-h-[16rem] [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-black/20 [&::-webkit-scrollbar-thumb]:bg-cyan-500/20 [&::-webkit-scrollbar-thumb]:rounded hover:[&::-webkit-scrollbar-thumb]:bg-cyan-500/40`} ref={terminalContainerRef}>
                 <div className="flex-1 space-y-2">
                   {terminalOutput}
                   <div className="flex items-center gap-2 mt-2">
@@ -468,14 +516,37 @@ export default function PortfolioHome() {
               </div>
             </div>
 
-            {/* Footer graphic */}
-            <div className="flex flex-col justify-end items-end font-mono text-xs text-gray-600 opacity-50 select-none hidden md:flex">
-              <div className="text-right">
-                <div>END OF FILE</div>
-                <div>SYS.TERM // 100%</div>
-                <div>© {new Date().getFullYear()} CARLO VII.</div>
+            {/* Contact Form */}
+            <form className="flex flex-col gap-4 border border-white/5 bg-white/[0.01] p-6 sm:p-8 relative group" onSubmit={handleContactSubmit}>
+              <div className="absolute top-0 right-0 w-32 h-32 bg-cyan-500/5 blur-[50px] pointer-events-none group-hover:bg-cyan-500/10 transition-colors"></div>
+              
+              <div className="flex flex-col gap-2 relative z-10">
+                <label className="font-mono text-xs text-cyan-500 tracking-widest uppercase">01. IDENTIFICATION</label>
+                <input type="text" name="name" required placeholder="Name / Callsign" className="bg-[#0a0a0e] border border-white/10 text-gray-300 p-3 font-mono text-sm outline-none focus:border-cyan-500/50 transition-colors w-full placeholder:text-gray-700" />
               </div>
-            </div>
+              
+              <div className="flex flex-col gap-2 relative z-10">
+                <label className="font-mono text-xs text-cyan-500 tracking-widest uppercase">02. RETURN ADDRESS</label>
+                <input type="email" name="email" required placeholder="Email Address" className="bg-[#0a0a0e] border border-white/10 text-gray-300 p-3 font-mono text-sm outline-none focus:border-cyan-500/50 transition-colors w-full placeholder:text-gray-700" />
+              </div>
+
+              <div className="flex flex-col gap-2 mt-2 relative z-10 text-gray-300">
+                <label className="font-mono text-xs text-cyan-500 tracking-widest uppercase">03. MESSAGE PAYLOAD</label>
+                <textarea required name="message" placeholder="Enter transmission..." rows={5} className="bg-[#0a0a0e] border border-white/10 text-gray-300 p-3 font-mono text-sm outline-none focus:border-cyan-500/50 transition-colors w-full resize-none placeholder:text-gray-700"></textarea>
+              </div>
+
+              <button type="submit" disabled={isSubmitting} className="mt-4 bg-cyan-500/10 border border-cyan-500/50 text-cyan-400 px-8 py-3 font-mono text-sm tracking-widest uppercase hover:bg-cyan-500 hover:text-[#050507] disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2 relative z-10">
+                <Mail className="w-4 h-4" /> {isSubmitting ? "DISPATCHING..." : submitStatus === "success" ? "TRANSMISSION DELIVERED ✓" : submitStatus === "error" ? "TRANSMISSION FAILED" : "DISPATCH MESSAGE"}
+              </button>
+
+              <div className="flex justify-between items-end font-mono text-[10px] text-gray-600 mt-2 select-none relative z-10">
+                <div>© {new Date().getFullYear()} CARLO VII.</div>
+                <div className="text-right">
+                  <div>SYS.TERM // 100%</div>
+                  <div>END OF FILE</div>
+                </div>
+              </div>
+            </form>
           </div>
         </div>
 
