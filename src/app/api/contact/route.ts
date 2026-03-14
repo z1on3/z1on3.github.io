@@ -1,4 +1,3 @@
-import { Resend } from 'resend';
 import { NextResponse } from 'next/server';
 
 export async function POST(request: Request) {
@@ -11,10 +10,11 @@ export async function POST(request: Request) {
       return NextResponse.json({ simulated: true });
     }
 
+    const { Resend } = await import('resend');
     const resend = new Resend(resendApiKey);
     const { data, error } = await resend.emails.send({
       from: 'Portfolio Contact Form <onboarding@resend.dev>',
-      to: ['panercarlo99+portfolio@gmail.com'], // Deliver to the user's email
+      to: ['panercarlo99+portfolio@gmail.com'],
       subject: `New Transmission from ${name}`,
       text: `Sender: ${name} (${email})\n\nMessage:\n${message}`,
     });

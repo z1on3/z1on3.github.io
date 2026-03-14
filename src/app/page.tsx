@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { personalInfo } from "../data/personal-info";
 import { projects, Project } from "../data/projects";
-import { Terminal as TerminalIcon, Cpu, Activity, Shield, Code, ChevronRight, Mail, ExternalLink, Download, X, Maximize2, Minimize2, Minus, Square } from "lucide-react";
+import { Terminal as TerminalIcon, Cpu, Activity, Shield, Code, ChevronRight, Mail, ExternalLink, Download, X, Maximize2, Minus, Square } from "lucide-react";
 
 export default function PortfolioHome() {
   const [input, setInput] = useState("");
