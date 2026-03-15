@@ -23,11 +23,16 @@ export default function LicensingAdminPage() {
   const [error, setError] = useState('');
 
   const [email, setEmail] = useState('');
+  const [appName, setAppName] = useState('speecy');
   const [licenseType, setLicenseType] = useState<'lifetime' | 'trial'>('lifetime');
   const [days, setDays] = useState(14);
   const [generating, setGenerating] = useState(false);
   const [generatedKey, setGeneratedKey] = useState('');
   const [copied, setCopied] = useState(false);
+
+  // Detail modal
+  const [selected, setSelected] = useState<License | null>(null);
+  const [keyCopied, setKeyCopied] = useState(false);
 
   async function handleLogin(e: React.FormEvent) {
     e.preventDefault();
@@ -69,6 +74,7 @@ export default function LicensingAdminPage() {
         body: JSON.stringify({
           password,
           email,
+          app: appName,
           type: licenseType,
           days: licenseType === 'trial' ? days : null,
         }),
@@ -81,15 +87,7 @@ export default function LicensingAdminPage() {
       }
 
       setGeneratedKey(data.license_key);
-
-      // Refresh the list
-      const listRes = await fetch('/api/licensing/list', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ password }),
-      });
-      const listData = await listRes.json();
-      if (listRes.ok) setLicenses(listData.licenses);
+      await refreshList();
     } catch {
       setError('Failed to generate');
     } finally {
@@ -97,10 +95,72 @@ export default function LicensingAdminPage() {
     }
   }
 
+  async function refreshList() {
+    const listRes = await fetch('/api/licensing/list', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ password }),
+    });
+    const listData = await listRes.json();
+    if (listRes.ok) setLicenses(listData.licenses);
+  }
+
+  async function handleRevoke(lic: License) {
+    if (!confirm(`Revoke license for ${lic.email}?`)) return;
+
+    try {
+      const res = await fetch('/api/licensing/revoke', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password, license_id: lic.id }),
+      });
+
+      const data = await res.json();
+      if (!res.ok) {
+        setError(data.error || 'Revoke failed');
+        return;
+      }
+
+      await refreshList();
+      setSelected(null);
+    } catch {
+      setError('Failed to revoke');
+    }
+  }
+
+  async function handleResetFingerprint(lic: License) {
+    if (!confirm(`Reset fingerprint for ${lic.email}? They will need to re-activate.`)) return;
+
+    try {
+      const res = await fetch('/api/licensing/reset-fingerprint', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password, license_id: lic.id }),
+      });
+
+      const data = await res.json();
+      if (!res.ok) {
+        setError(data.error || 'Reset failed');
+        return;
+      }
+
+      await refreshList();
+      setSelected(null);
+    } catch {
+      setError('Failed to reset fingerprint');
+    }
+  }
+
   async function copyKey() {
     await navigator.clipboard.writeText(generatedKey);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
+  }
+
+  async function copyLicenseKey(key: string) {
+    await navigator.clipboard.writeText(key);
+    setKeyCopied(true);
+    setTimeout(() => setKeyCopied(false), 2000);
   }
 
   if (!authenticated) {
@@ -173,7 +233,7 @@ export default function LicensingAdminPage() {
           </div>
           <div className="h-px bg-gradient-to-r from-cyan-500 to-transparent" />
           <form onSubmit={handleGenerate} className="p-4">
-            <div className="grid grid-cols-[1fr_auto_auto_auto] gap-4 items-end">
+            <div className="grid grid-cols-[1fr_auto_auto_auto_auto] gap-4 items-end">
               <div>
                 <label className="mb-1 block text-xs uppercase tracking-widest text-gray-600">
                   Email
@@ -185,6 +245,18 @@ export default function LicensingAdminPage() {
                   required
                   className="w-full border border-white/10 bg-white/[0.03] px-3 py-2 text-sm text-gray-300 outline-none focus:border-cyan-500/50"
                   placeholder="user@example.com"
+                />
+              </div>
+              <div>
+                <label className="mb-1 block text-xs uppercase tracking-widest text-gray-600">
+                  App
+                </label>
+                <input
+                  type="text"
+                  value={appName}
+                  onChange={(e) => setAppName(e.target.value)}
+                  required
+                  className="w-28 border border-white/10 bg-white/[0.03] px-3 py-2 text-sm text-gray-300 outline-none focus:border-cyan-500/50"
                 />
               </div>
               <div>
@@ -254,12 +326,14 @@ export default function LicensingAdminPage() {
 
         {/* Licenses Table */}
         <div className="border border-white/10">
-          <div className="grid grid-cols-[1.5fr_0.8fr_0.8fr_0.8fr_1fr] gap-4 border-b border-white/10 bg-white/[0.03] px-4 py-3 text-xs uppercase tracking-widest text-gray-500">
+          <div className="grid grid-cols-[1.2fr_0.6fr_0.7fr_0.6fr_0.6fr_0.8fr_0.5fr] gap-3 border-b border-white/10 bg-white/[0.03] px-4 py-3 text-xs uppercase tracking-widest text-gray-500">
             <span>Email</span>
+            <span>App</span>
             <span>Type</span>
             <span>Status</span>
             <span>Bound</span>
             <span>Created</span>
+            <span>Actions</span>
           </div>
           <div className="h-px bg-gradient-to-r from-cyan-500 to-transparent" />
           {licenses.length === 0 ? (
@@ -271,9 +345,10 @@ export default function LicensingAdminPage() {
               {licenses.map((lic) => (
                 <div
                   key={lic.id}
-                  className="grid grid-cols-[1.5fr_0.8fr_0.8fr_0.8fr_1fr] gap-4 border-b border-white/5 px-4 py-3 text-sm"
+                  className="grid grid-cols-[1.2fr_0.6fr_0.7fr_0.6fr_0.6fr_0.8fr_0.5fr] gap-3 border-b border-white/5 px-4 py-3 text-sm items-center"
                 >
                   <span className="truncate text-gray-300">{lic.email}</span>
+                  <span className="text-xs text-gray-500">{lic.app}</span>
                   <span className="text-xs uppercase text-gray-400">
                     {lic.type}
                     {lic.days ? ` (${lic.days}d)` : ''}
@@ -289,11 +364,136 @@ export default function LicensingAdminPage() {
                     {lic.fingerprint ? 'Yes' : 'No'}
                   </span>
                   <span className="text-xs text-gray-600">{lic.created_at}</span>
+                  <button
+                    onClick={() => setSelected(lic)}
+                    className="text-xs text-cyan-500 hover:text-cyan-300 transition-colors text-left"
+                  >
+                    View
+                  </button>
                 </div>
               ))}
             </div>
           )}
         </div>
+      </div>
+
+      {/* Detail Modal */}
+      {selected && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm"
+          onClick={() => setSelected(null)}
+        >
+          <div
+            className="relative mx-4 w-full max-w-lg border border-white/10 bg-[#0a0a0f] shadow-[0_0_50px_rgba(6,182,212,0.15)]"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Modal Header */}
+            <div className="flex items-center justify-between border-b border-white/10 p-5">
+              <div className="flex items-center gap-3">
+                <div className="h-2 w-2 animate-pulse rounded-full bg-cyan-500 shadow-[0_0_8px_rgba(6,182,212,0.8)]" />
+                <span className="text-xs uppercase tracking-[3px] text-cyan-500">
+                  License Detail
+                </span>
+              </div>
+              <button
+                onClick={() => setSelected(null)}
+                className="border border-white/10 px-3 py-1 text-xs text-gray-500 transition-all hover:border-cyan-500/30 hover:text-gray-300"
+              >
+                ESC
+              </button>
+            </div>
+            <div className="h-px bg-gradient-to-r from-cyan-500 to-transparent" />
+
+            {/* Modal Body */}
+            <div className="space-y-4 p-5">
+              <div className="grid grid-cols-2 gap-4">
+                <Field label="Email" value={selected.email} />
+                <Field label="App" value={selected.app} />
+              </div>
+              <div className="grid grid-cols-3 gap-4">
+                <Field label="Type" value={`${selected.type}${selected.days ? ` (${selected.days}d)` : ''}`} />
+                <Field
+                  label="Status"
+                  value={selected.status}
+                  className={selected.status === 'active' ? 'text-green-400' : 'text-red-400'}
+                />
+                <Field label="Created" value={selected.created_at} />
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <Field
+                  label="Bound"
+                  value={selected.fingerprint ? 'Yes' : 'No'}
+                  className={selected.fingerprint ? 'text-cyan-400' : 'text-gray-600'}
+                />
+                <Field label="Activated" value={selected.activated_at || 'Not yet'} />
+              </div>
+              {selected.fingerprint && (
+                <Field label="Fingerprint" value={selected.fingerprint} />
+              )}
+
+              {/* License Key */}
+              <div>
+                <div className="mb-1 text-xs uppercase tracking-widest text-gray-600">
+                  License Key
+                </div>
+                <div className="flex items-center gap-2">
+                  <code className="flex-1 break-all border border-white/10 bg-white/[0.03] p-2 text-xs text-cyan-400">
+                    {selected.license_key}
+                  </code>
+                  <button
+                    onClick={() => copyLicenseKey(selected.license_key)}
+                    className="shrink-0 border border-cyan-500/50 bg-cyan-500/10 px-2 py-1 text-xs uppercase tracking-widest text-cyan-400 transition-all hover:bg-cyan-500 hover:text-[#050507]"
+                  >
+                    {keyCopied ? 'Copied!' : 'Copy'}
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* Actions */}
+            <div className="border-t border-white/10 p-5">
+              <div className="flex gap-3">
+                {selected.fingerprint && (
+                  <button
+                    onClick={() => handleResetFingerprint(selected)}
+                    className="border border-yellow-500/50 bg-yellow-500/10 px-4 py-2 text-xs uppercase tracking-widest text-yellow-400 transition-all hover:bg-yellow-500 hover:text-[#050507]"
+                  >
+                    Reset Fingerprint
+                  </button>
+                )}
+                {selected.status === 'active' && (
+                  <button
+                    onClick={() => handleRevoke(selected)}
+                    className="border border-red-500/50 bg-red-500/10 px-4 py-2 text-xs uppercase tracking-widest text-red-400 transition-all hover:bg-red-500 hover:text-[#050507]"
+                  >
+                    Revoke
+                  </button>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function Field({
+  label,
+  value,
+  className,
+}: {
+  label: string;
+  value: string;
+  className?: string;
+}) {
+  return (
+    <div>
+      <div className="mb-1 text-xs uppercase tracking-widest text-gray-600">
+        {label}
+      </div>
+      <div className={`break-all text-sm ${className || 'text-gray-300'}`}>
+        {value}
       </div>
     </div>
   );

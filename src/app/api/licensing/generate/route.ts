@@ -91,7 +91,7 @@ async function putGitHubFile(content: LicenseEntry[], sha: string, message: stri
 
 export async function POST(request: Request) {
   try {
-    const { password, email, type, days } = await request.json();
+    const { password, email, app: appName, type, days } = await request.json();
 
     const expectedPassword = process.env.EMAIL_LOGS_PASSWORD;
     if (!expectedPassword || password !== expectedPassword) {
@@ -118,7 +118,7 @@ export async function POST(request: Request) {
       email,
       type,
       days: type === 'lifetime' ? null : days,
-      app: 'speecy',
+      app: appName || 'speecy',
       created_at: new Date().toISOString().split('T')[0],
     };
     const payloadJson = JSON.stringify(payload);
@@ -128,14 +128,15 @@ export async function POST(request: Request) {
     const signature = ed.sign(payloadBytes, privateKey);
     const signatureB64 = toBase64Url(signature);
 
-    const licenseKey = `SPEECY-${payloadB64}.${signatureB64}`;
+    const prefix = (appName || 'speecy').toUpperCase();
+    const licenseKey = `${prefix}-${payloadB64}.${signatureB64}`;
 
     const id = crypto.randomUUID();
 
     const { content: licenses, sha } = await getGitHubFile();
     const newEntry: LicenseEntry = {
       id,
-      app: 'speecy',
+      app: appName || 'speecy',
       email,
       license_key: licenseKey,
       type,
