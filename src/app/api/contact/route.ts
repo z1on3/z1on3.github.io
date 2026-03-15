@@ -13,7 +13,7 @@ export async function POST(request: Request) {
     const { Resend } = await import('resend');
     const resend = new Resend(resendApiKey);
     const { data, error } = await resend.emails.send({
-      from: 'Portfolio Contact Form <onboarding@resend.dev>',
+      from: 'Portfolio Contact Form <portfolio@carlovii.com>',
       to: ['panercarlo99+portfolio@gmail.com'],
       subject: `New Transmission from ${name}`,
       text: `Sender: ${name} (${email})\n\nMessage:\n${message}`,
