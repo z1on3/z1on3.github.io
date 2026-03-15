@@ -439,12 +439,11 @@ export default function LicensingAdminPage() {
             <div className="h-px bg-gradient-to-r from-cyan-500 to-transparent" />
 
             {/* Modal Body */}
-            <div className="space-y-4 p-5">
-              <div className="grid grid-cols-2 gap-4">
+            <div className="p-5">
+              {/* Info Grid */}
+              <div className="grid grid-cols-2 gap-x-6 gap-y-4 mb-5">
                 <Field label="Email" value={selected.email} />
                 <Field label="App" value={selected.app} />
-              </div>
-              <div className="grid grid-cols-3 gap-4">
                 <Field label="Type" value={`${selected.type}${selected.days ? ` (${selected.days}d)` : ''}`} />
                 <Field
                   label="Status"
@@ -452,31 +451,38 @@ export default function LicensingAdminPage() {
                   className={selected.status === 'active' ? 'text-green-400' : 'text-red-400'}
                 />
                 <Field label="Created" value={selected.created_at} />
-              </div>
-              <div className="grid grid-cols-2 gap-4">
+                <Field label="Activated" value={selected.activated_at || 'Not yet'} />
                 <Field
-                  label="Bound"
+                  label="Hardware Bound"
                   value={selected.fingerprint ? 'Yes' : 'No'}
                   className={selected.fingerprint ? 'text-cyan-400' : 'text-gray-600'}
                 />
-                <Field label="Activated" value={selected.activated_at || 'Not yet'} />
               </div>
+
+              {/* Fingerprint (full width, only if bound) */}
               {selected.fingerprint && (
-                <Field label="Fingerprint" value={selected.fingerprint} />
+                <div className="mb-5">
+                  <div className="mb-1 text-xs uppercase tracking-widest text-gray-600">
+                    Fingerprint
+                  </div>
+                  <code className="block break-all border border-white/10 bg-white/[0.03] px-3 py-2 text-xs text-gray-400 font-mono">
+                    {selected.fingerprint}
+                  </code>
+                </div>
               )}
 
-              {/* License Key */}
+              {/* License Key (full width) */}
               <div>
                 <div className="mb-1 text-xs uppercase tracking-widest text-gray-600">
                   License Key
                 </div>
                 <div className="flex items-center gap-2">
-                  <code className="flex-1 break-all border border-white/10 bg-white/[0.03] p-2 text-xs text-cyan-400">
+                  <code className="flex-1 break-all border border-white/10 bg-white/[0.03] px-3 py-2 text-xs text-cyan-400 font-mono">
                     {selected.license_key}
                   </code>
                   <button
                     onClick={() => copyLicenseKey(selected.license_key)}
-                    className="shrink-0 border border-cyan-500/50 bg-cyan-500/10 px-2 py-1 text-xs uppercase tracking-widest text-cyan-400 transition-all hover:bg-cyan-500 hover:text-[#050507]"
+                    className="shrink-0 border border-cyan-500/50 bg-cyan-500/10 px-3 py-2 text-xs uppercase tracking-widest text-cyan-400 transition-all hover:bg-cyan-500 hover:text-[#050507]"
                   >
                     {keyCopied ? 'Copied!' : 'Copy'}
                   </button>
