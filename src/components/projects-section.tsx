@@ -117,8 +117,8 @@ export function ProjectsSection() {
                     </Button>
                   )}
                   {project.caseStudyUrl && (
-                    <Button 
-                      size="sm" 
+                    <Button
+                      size="sm"
                       variant="outline"
                       className="border-[#76ABAE] text-[#76ABAE] bg-transparent hover:bg-[#76ABAE] hover:text-[#222831]"
                       onClick={(e) => {
@@ -132,6 +132,25 @@ export function ProjectsSection() {
                       <Download size={16} />
                     </Button>
                   )}
+                  {project.downloadUrl && (
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      className="flex-1 border-[#76ABAE] text-[#76ABAE] bg-transparent hover:bg-[#76ABAE] hover:text-[#222831]"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        if (project.downloadUrl) {
+                          const link = document.createElement('a');
+                          link.href = project.downloadUrl;
+                          link.download = '';
+                          link.click();
+                        }
+                      }}
+                    >
+                      <Download size={16} className="mr-2" />
+                      Windows
+                    </Button>
+                  )}
                 </div>
               </CardContent>
             </Card>
@@ -141,7 +160,7 @@ export function ProjectsSection() {
         {/* Project Modal/Detail View */}
         {selectedProject && (
           <div className="fixed inset-0 flex items-center justify-center p-4 z-50" style={{backgroundColor: 'rgba(34, 40, 49, 0.9)'}}>
-            <div className="rounded-lg max-w-4xl max-h-[90vh] overflow-y-auto" style={{backgroundColor: '#222831', borderColor: '#76ABAE', border: '1px solid'}}>
+            <div className="max-w-4xl max-h-[90vh] overflow-y-auto" style={{backgroundColor: '#222831', borderColor: '#76ABAE', border: '1px solid'}}>
               <div className="p-6">
                 <div className="flex justify-between items-start mb-4">
                   <h3 className="text-2xl font-bold" style={{color: '#EEEEEE'}}>{selectedProject.title}</h3>
@@ -161,7 +180,7 @@ export function ProjectsSection() {
                     alt={selectedProject.title}
                     width={800}
                     height={400}
-                    className="w-full h-64 object-cover rounded-lg"
+                    className="w-full h-64 object-cover"
                   />
                 </div>
                 
@@ -193,7 +212,7 @@ export function ProjectsSection() {
                     </Button>
                   )}
                   {selectedProject.caseStudyUrl && (
-                    <Button 
+                    <Button
                       variant="outline"
                       className="border-[#76ABAE] text-[#76ABAE] bg-transparent hover:bg-[#76ABAE] hover:text-[#222831]"
                       onClick={() => {
@@ -205,6 +224,22 @@ export function ProjectsSection() {
                     >
                       <Download size={16} className="mr-2" />
                       Download Case Study
+                    </Button>
+                  )}
+                  {selectedProject.downloadUrl && (
+                    <Button
+                      className="bg-[#76ABAE] text-[#222831] hover:bg-[#76ABAE]/90"
+                      onClick={() => {
+                        if (selectedProject.downloadUrl) {
+                          const link = document.createElement('a');
+                          link.href = selectedProject.downloadUrl;
+                          link.download = '';
+                          link.click();
+                        }
+                      }}
+                    >
+                      <Download size={16} className="mr-2" />
+                      Download for Windows
                     </Button>
                   )}
                 </div>

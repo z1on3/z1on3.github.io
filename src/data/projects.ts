@@ -10,10 +10,24 @@ export interface Project {
   liveUrl?: string;
   githubUrl?: string;
   caseStudyUrl?: string;
+  downloadUrl?: string;
   featured: boolean;
 }
 
 export const projects: Project[] = [
+  {
+    id: 'speecy',
+    title: 'Speecy',
+    description: 'Local, privacy-first voice dictation for developers. Dictate into any app, 100% offline.',
+    longDescription: 'Speecy is a cross-platform desktop voice dictation app built for developers. Hold a hotkey, speak, and your words are transcribed and typed into any focused application — VS Code, Slack, browsers, anything. Powered by Whisper running entirely on your machine, no cloud, no telemetry, no data ever leaves your device. Features include push-to-talk dictation, wake word detection, GPU-accelerated transcription, customizable text replacements, and full transcription history.',
+    category: 'personal',
+    image: '/img/speecy/speecy.png',
+    images: ['/img/speecy/speecy.png'],
+    technologies: ['Tauri', 'Rust', 'SolidJS', 'TypeScript', 'Whisper AI', 'TailwindCSS'],
+    githubUrl: 'https://github.com/z1on3/speecy',
+    downloadUrl: '/speecy/download/Speecy_Setup.exe',
+    featured: true
+  },
   {
     id: 'freelancify',
     title: 'Freelancify',

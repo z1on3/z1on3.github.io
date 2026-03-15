@@ -24,7 +24,26 @@ export default function PortfolioHome() {
     setTerminalOutput([
       <div key="init" className="text-cyan-400">System initialized. Type &apos;help&apos; for commands.</div>
     ]);
+
+    // Auto-open project modal from hash (e.g. /#speecy)
+    const hash = window.location.hash.replace('#', '');
+    if (hash) {
+      const project = projects.find(p => p.id === hash);
+      if (project) {
+        setSelectedProject(project);
+        setSelectedImageIndex(0);
+      }
+    }
   }, []);
+
+  // Sync hash with selected project
+  useEffect(() => {
+    if (selectedProject) {
+      window.history.replaceState(null, '', `#${selectedProject.id}`);
+    } else {
+      window.history.replaceState(null, '', window.location.pathname);
+    }
+  }, [selectedProject]);
 
   useEffect(() => {
     if (terminalContainerRef.current) {
@@ -556,7 +575,7 @@ export default function PortfolioHome() {
       {selectedProject && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-8 bg-black/80 backdrop-blur-sm" onClick={() => setSelectedProject(null)}>
           <div
-            className="bg-[#050507] border border-cyan-500/30 w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-sm relative flex flex-col shadow-[0_0_30px_rgba(6,182,212,0.1)]"
+            className="bg-[#050507] border border-cyan-500/30 w-full max-w-4xl max-h-[90vh] overflow-y-auto relative flex flex-col shadow-[0_0_30px_rgba(6,182,212,0.1)]"
             onClick={(e) => e.stopPropagation()}
           >
             <button
@@ -623,11 +642,18 @@ export default function PortfolioHome() {
                   </div>
                 </div>
 
-                {selectedProject.liveUrl && (
-                  <div className="mt-auto pt-6 flex gap-4 text-center">
-                    <a href={selectedProject.liveUrl.startsWith('http') ? selectedProject.liveUrl : `#`} target="_blank" rel="noreferrer" className="w-full sm:w-auto bg-cyan-500/10 border border-cyan-500/50 text-cyan-400 px-8 py-3 font-mono text-xs tracking-widest uppercase hover:bg-cyan-500 hover:text-[#050507] transition-all flex items-center justify-center gap-2">
-                      <ExternalLink className="w-4 h-4" /> Launch Live URL
-                    </a>
+                {(selectedProject.liveUrl || selectedProject.downloadUrl) && (
+                  <div className="mt-auto pt-6 flex flex-wrap gap-4 text-center">
+                    {selectedProject.liveUrl && (
+                      <a href={selectedProject.liveUrl.startsWith('http') ? selectedProject.liveUrl : `#`} target="_blank" rel="noreferrer" className="w-full sm:w-auto bg-cyan-500/10 border border-cyan-500/50 text-cyan-400 px-8 py-3 font-mono text-xs tracking-widest uppercase hover:bg-cyan-500 hover:text-[#050507] transition-all flex items-center justify-center gap-2">
+                        <ExternalLink className="w-4 h-4" /> Launch Live URL
+                      </a>
+                    )}
+                    {selectedProject.downloadUrl && (
+                      <a href={selectedProject.downloadUrl} download className="w-full sm:w-auto bg-cyan-500/10 border border-cyan-500/50 text-cyan-400 px-8 py-3 font-mono text-xs tracking-widest uppercase hover:bg-cyan-500 hover:text-[#050507] transition-all flex items-center justify-center gap-2">
+                        <Download className="w-4 h-4" /> Download for Windows
+                      </a>
+                    )}
                   </div>
                 )}
               </div>
