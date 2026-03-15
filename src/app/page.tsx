@@ -45,7 +45,7 @@ export default function PortfolioHome() {
     
     try {
       const formTarget = e.currentTarget;
-      const res = await fetch("/api/contact", {
+      const res = await fetch("/api/contact/", {
         method: "POST",
         body: JSON.stringify(data),
         headers: { "Content-Type": "application/json" }
