@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 interface License {
   id: string;
@@ -34,6 +34,39 @@ export default function LicensingAdminPage() {
   const [selected, setSelected] = useState<License | null>(null);
   const [keyCopied, setKeyCopied] = useState(false);
 
+  // Restore session on mount
+  useEffect(() => {
+    const saved = sessionStorage.getItem('licensing-admin-key');
+    if (saved) {
+      setPassword(saved);
+      loginWith(saved);
+    }
+  }, []);
+
+  async function loginWith(pw: string) {
+    setLoading(true);
+    setError('');
+    try {
+      const res = await fetch('/api/licensing/list', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password: pw }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        sessionStorage.removeItem('licensing-admin-key');
+        return;
+      }
+      setLicenses(data.licenses);
+      setAuthenticated(true);
+      sessionStorage.setItem('licensing-admin-key', pw);
+    } catch {
+      sessionStorage.removeItem('licensing-admin-key');
+    } finally {
+      setLoading(false);
+    }
+  }
+
   async function handleLogin(e: React.FormEvent) {
     e.preventDefault();
     setLoading(true);
@@ -54,6 +87,7 @@ export default function LicensingAdminPage() {
 
       setLicenses(data.licenses);
       setAuthenticated(true);
+      sessionStorage.setItem('licensing-admin-key', password);
     } catch {
       setError('Failed to connect');
     } finally {
