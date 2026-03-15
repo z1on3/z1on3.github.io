@@ -1,1 +1,14 @@
-[]
+[
+  {
+    "id": "865ebf8a-9d62-43e6-889e-e068ba5f2038",
+    "app": "speecy",
+    "email": "panercarlo99@gmail.com",
+    "license_key": "SPEECY-eyJlbWFpbCI6InBhbmVyY2FybG85OUBnbWFpbC5jb20iLCJ0eXBlIjoibGlmZXRpbWUiLCJkYXlzIjpudWxsLCJhcHAiOiJzcGVlY3kiLCJjcmVhdGVkX2F0IjoiMjAyNi0wMy0xNSJ9.lSXiJGHvXCcD3MDh8M9hiScoNLmS0NTeySA-nO5LEP0ZuYeg7UVuoHwfMXueEyop6DOUJ3kTA3J2Q8YDYS9SCA",
+    "type": "lifetime",
+    "days": null,
+    "fingerprint": null,
+    "activated_at": null,
+    "created_at": "2026-03-15",
+    "status": "active"
+  }
+]
