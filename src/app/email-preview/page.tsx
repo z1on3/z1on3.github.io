@@ -1,19 +1,13 @@
-import { NextResponse } from 'next/server';
+import { Metadata } from 'next';
 
-export async function POST(request: Request) {
-  try {
-    const { name, email, message } = await request.json();
+export const metadata: Metadata = {
+  title: 'Email Preview',
+  robots: 'noindex, nofollow',
+};
 
-    const resendApiKey = process.env.RESEND_API_KEY;
-    if (!resendApiKey) {
-      console.warn("RESEND_API_KEY is not set. Simulating success.");
-      return NextResponse.json({ simulated: true });
-    }
-
-    const { Resend } = await import('resend');
-    const resend = new Resend(resendApiKey);
-    const html = `
-<!DOCTYPE html>
+function getEmailHtml(name: string, email: string, message: string) {
+  const timestamp = new Date().toISOString().replace('T', ' ').slice(0, 19);
+  return `<!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8" />
@@ -34,7 +28,7 @@ export async function POST(request: Request) {
                     <span style="font-size:11px;color:#06b6d4;text-transform:uppercase;letter-spacing:3px;">Incoming Transmission</span>
                   </td>
                   <td align="right">
-                    <span style="font-size:11px;color:#6b7280;">${new Date().toISOString().replace('T', ' ').slice(0, 19)} UTC</span>
+                    <span style="font-size:11px;color:#6b7280;">${timestamp} UTC</span>
                   </td>
                 </tr>
               </table>
@@ -90,22 +84,52 @@ export async function POST(request: Request) {
   </table>
 </body>
 </html>`;
+}
 
-    const { data, error } = await resend.emails.send({
-      from: 'Portfolio Contact Form <portfolio@carlovii.com>',
-      to: ['panercarlo99+portfolio@gmail.com'],
-      subject: `New Transmission from ${name}`,
-      replyTo: email,
-      html,
-      text: `Sender: ${name} (${email})\n\nMessage:\n${message}`,
-    });
+export default function EmailPreviewPage() {
+  const sampleName = 'Jane Doe';
+  const sampleEmail = 'jane.doe@example.com';
+  const sampleMessage =
+    'Hey Carlo,\n\nI came across your portfolio and was really impressed by your work. I\'d love to discuss a potential collaboration on an upcoming project.\n\nLooking forward to hearing from you!';
 
-    if (error) {
-      return NextResponse.json({ error }, { status: 500 });
-    }
+  const emailHtml = getEmailHtml(sampleName, sampleEmail, sampleMessage);
 
-    return NextResponse.json(data);
-  } catch (error) {
-    return NextResponse.json({ error }, { status: 500 });
-  }
+  return (
+    <div className="min-h-screen bg-[#050507] p-8 font-mono">
+      <div className="mx-auto max-w-4xl">
+        <div className="mb-6 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="h-2 w-2 animate-pulse rounded-full bg-cyan-500 shadow-[0_0_8px_rgba(6,182,212,0.8)]" />
+            <h1 className="text-xs uppercase tracking-[3px] text-cyan-500">
+              Email Template Preview
+            </h1>
+          </div>
+          <a
+            href="/"
+            className="border border-cyan-500/30 bg-cyan-500/10 px-4 py-2 font-mono text-xs uppercase tracking-widest text-cyan-400 transition-all hover:bg-cyan-500 hover:text-[#050507]"
+          >
+            Back to Portfolio
+          </a>
+        </div>
+
+        <div className="mb-4 border border-white/10 bg-white/[0.02] p-4">
+          <div className="mb-2 text-xs uppercase tracking-widest text-gray-500">
+            Subject
+          </div>
+          <div className="text-sm text-gray-300">
+            New Transmission from {sampleName}
+          </div>
+        </div>
+
+        <div className="border border-white/10">
+          <iframe
+            srcDoc={emailHtml}
+            className="w-full border-0"
+            style={{ height: '600px' }}
+            title="Email preview"
+          />
+        </div>
+      </div>
+    </div>
+  );
 }
